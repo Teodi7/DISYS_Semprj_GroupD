@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="at.fhtechnikum.energygui.EnergyController">
+    <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+
+    <!-- Current Section -->
+    <Label text="Current Hour" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+    <TextArea fx:id="currentTextArea" editable="false" prefHeight="120" wrapText="true"/>
+    <Button text="Refresh" onAction="#handleRefresh"/>
+
+    <Separator/>
+
+    <!-- Historical Section -->
+    <Label text="Historical Data" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10">
+        <Label text="Start:" style="-fx-font-size: 13;"/>
+        <DatePicker fx:id="startDatePicker"/>
+        <TextField fx:id="startTimeField" promptText="HH:mm:ss" prefWidth="90"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="End:" style="-fx-font-size: 13;"/>
+        <DatePicker fx:id="endDatePicker"/>
+        <TextField fx:id="endTimeField" promptText="HH:mm:ss" prefWidth="90"/>
+    </HBox>
+
+    <Button text="Show Data" onAction="#handleShowData"/>
+    <TextArea fx:id="historicalTextArea" editable="false" prefHeight="150" wrapText="true"/>
+
+</VBox>
