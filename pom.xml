@@ -19,6 +19,10 @@
     <!-- IntelliJ trägt hier die Module automatisch ein -->
     <module>energy-api</module>
     <module>energy-gui</module>
+    <module>usage-service</module>
+    <module>current-percentage-service</module>
+    <module>energy-producer</module>
+    <module>energy-user</module>
   </modules>
 
 </project>
