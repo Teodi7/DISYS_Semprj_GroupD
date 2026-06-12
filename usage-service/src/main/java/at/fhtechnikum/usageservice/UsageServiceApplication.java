@@ -1,4 +1,4 @@
-﻿package at.fhtechnikum.usageservice;
+package at.fhtechnikum.usageservice;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.boot.SpringApplication;

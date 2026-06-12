@@ -15,13 +15,13 @@ public class EnergyDataEntity {
     @Column(name = "hour", nullable = false)
     private Date hour;
 
-    @Column(name = "community_produced", precision = 10, scale = 3)
+    @Column(name = "community_produced")
     private double communityProduced;
 
-    @Column(name = "community_used", precision = 10, scale = 3)
+    @Column(name = "community_used")
     private double communityUsed;
 
-    @Column(name = "grid_used", precision = 10, scale = 3)
+    @Column(name = "grid_used")
     private double gridUsed;
 
     public Date getHour() {
