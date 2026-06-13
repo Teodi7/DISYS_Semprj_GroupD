@@ -15,10 +15,10 @@ public class CurrentPercentageEntity {
     @Column(name = "hour", nullable = false)
     private Date hour;
 
-    @Column(name = "community_depleted", precision = 10, scale = 3)
+    @Column(name = "community_depleted")
     private double communityDepleted;
 
-    @Column(name = "grid_portion", precision = 10, scale = 3)
+    @Column(name = "grid_portion")
     private double gridPortion;
 
     public Date getHour() {
