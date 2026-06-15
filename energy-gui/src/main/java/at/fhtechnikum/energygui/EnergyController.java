@@ -10,6 +10,7 @@ import java.net.http.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class EnergyController {
 
@@ -21,7 +22,6 @@ public class EnergyController {
     @FXML private TextField endTimeField;
 
     private final HttpClient client = HttpClient.newHttpClient();
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @FXML
     protected void handleRefresh() {
@@ -31,11 +31,7 @@ public class EnergyController {
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
-                .thenAccept(json -> {
-                    JsonElement parsed = JsonParser.parseString(json);
-                    String pretty = gson.toJson(parsed);
-                    Platform.runLater(() -> currentTextArea.setText(pretty));
-                })
+                .thenAccept(json -> Platform.runLater(() -> currentTextArea.setText(formatCurrent(json))))
                 .exceptionally(e -> {
                     Platform.runLater(() ->
                             currentTextArea.setText("Error: " + e.getMessage())
@@ -68,16 +64,41 @@ public class EnergyController {
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
-                .thenAccept(json -> {
-                    JsonElement parsed = JsonParser.parseString(json);
-                    String pretty = gson.toJson(parsed);
-                    Platform.runLater(() -> historicalTextArea.setText(pretty));
-                })
+                .thenAccept(json -> Platform.runLater(() -> historicalTextArea.setText(formatHistorical(json))))
                 .exceptionally(e -> {
                     Platform.runLater(() ->
                             historicalTextArea.setText("Error: " + e.getMessage())
                     );
                     return null;
                 });
+    }
+
+    // Turns the /energy/current JSON into readable percentage lines.
+    private String formatCurrent(String json) {
+        try {
+            JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+            double depleted = obj.get("communityDepleted").getAsDouble();
+            double gridPortion = obj.get("gridPortion").getAsDouble();
+            return String.format(Locale.US,
+                    "Community Pool: %.2f%% used%nGrid Portion: %.2f%%",
+                    depleted, gridPortion);
+        } catch (Exception e) {
+            return "Could not read data: " + json;
+        }
+    }
+
+    // Turns the /energy/historical JSON into readable kWh lines.
+    private String formatHistorical(String json) {
+        try {
+            JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+            double produced = obj.get("totalCommunityProduced").getAsDouble();
+            double used = obj.get("totalCommunityUsed").getAsDouble();
+            double grid = obj.get("totalGridUsed").getAsDouble();
+            return String.format(Locale.US,
+                    "Community produced: %.3f kWh%nCommunity used: %.3f kWh%nGrid used: %.3f kWh",
+                    produced, used, grid);
+        } catch (Exception e) {
+            return "Could not read data: " + json;
+        }
     }
 }
