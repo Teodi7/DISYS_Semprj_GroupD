@@ -74,8 +74,8 @@ public class EnergyController {
 
     @FXML
     protected void handleShowData() {
-        LocalDate start = startDatePicker.getValue();
-        LocalDate end = endDatePicker.getValue();
+        LocalDate start = committedDate(startDatePicker);
+        LocalDate end = committedDate(endDatePicker);
         String startTime = startTimeField.getText();
         String endTime = endTimeField.getText();
 
@@ -137,6 +137,23 @@ public class EnergyController {
         } catch (Exception e) {
             setError(historicalTable, "Could not read data.");
         }
+    }
+
+    // Reads the picker value, committing any text the user typed but did not
+    // confirm with Enter (otherwise getValue() stays null and we wrongly think
+    // the field is empty).
+    private LocalDate committedDate(DatePicker picker) {
+        if (picker.getValue() == null) {
+            String text = picker.getEditor().getText();
+            if (text != null && !text.isBlank()) {
+                try {
+                    picker.setValue(picker.getConverter().fromString(text.trim()));
+                } catch (Exception ignored) {
+                    // leave value null -> handled as "please fill in"
+                }
+            }
+        }
+        return picker.getValue();
     }
 
     // Clears a table and shows the given message in its placeholder.
