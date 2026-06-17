@@ -4,34 +4,45 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="10" xmlns="http://javafx.com/javafx"
+<VBox spacing="8" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="at.fhtechnikum.energygui.EnergyController">
-    <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
 
-    <!-- Current Section -->
+    <!-- Current Hour -->
     <Label text="Current Hour" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
-    <TextArea fx:id="currentTextArea" editable="false" prefHeight="120" wrapText="true"/>
-    <Button text="Refresh" onAction="#handleRefresh"/>
+    <TableView fx:id="currentTable" prefHeight="60">
+        <columns>
+            <TableColumn fx:id="poolColumn" text="Community Pool Used (%)" prefWidth="180" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="gridColumn" text="Grid Portion (%)" prefWidth="150" style="-fx-alignment: CENTER;"/>
+        </columns>
+    </TableView>
+    <Button text="refresh" onAction="#handleRefresh"/>
 
     <Separator/>
 
-    <!-- Historical Section -->
+    <!-- Historical Data -->
     <Label text="Historical Data" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
 
     <HBox spacing="10">
-        <Label text="Start:" style="-fx-font-size: 13;"/>
+        <Label text="Start"/>
         <DatePicker fx:id="startDatePicker"/>
         <TextField fx:id="startTimeField" promptText="HH:mm:ss" prefWidth="90"/>
     </HBox>
-
     <HBox spacing="10">
-        <Label text="End:" style="-fx-font-size: 13;"/>
+        <Label text="End"/>
         <DatePicker fx:id="endDatePicker"/>
         <TextField fx:id="endTimeField" promptText="HH:mm:ss" prefWidth="90"/>
     </HBox>
 
-    <Button text="Show Data" onAction="#handleShowData"/>
-    <TextArea fx:id="historicalTextArea" editable="false" prefHeight="150" wrapText="true"/>
+    <Button text="show data" onAction="#handleShowData"/>
+
+    <TableView fx:id="historicalTable" prefHeight="60">
+        <columns>
+            <TableColumn fx:id="producedColumn" text="Community Produced (kWh)" prefWidth="190" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="usedColumn" text="Community Used (kWh)" prefWidth="170" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="gridUsedColumn" text="Grid Used (kWh)" prefWidth="150" style="-fx-alignment: CENTER;"/>
+        </columns>
+    </TableView>
 
 </VBox>

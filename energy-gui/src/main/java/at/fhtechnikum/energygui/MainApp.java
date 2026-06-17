@@ -13,7 +13,7 @@ public class MainApp extends Application {
         FXMLLoader loader = new FXMLLoader(
                 MainApp.class.getResource("MainView.fxml")
         );
-        Scene scene = new Scene(loader.load(), 600, 500);
+        Scene scene = new Scene(loader.load());
         stage.setTitle("Energy Community GUI");
         stage.setScene(scene);
         stage.show();
